@@ -119,6 +119,7 @@ export default function ExpenseForm({ setExpenses }) {
         onChange={handleChage}
         error={errors.category}
         options={["Grocery", "Clothes", "Bills", "Education", "Medicine"]}
+        defaultOptions="Select Category"
       />
 
       <Input
