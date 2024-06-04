@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function ExpenseForm({ setExpenses }) {
   const [expense, setExpense] = useState({
@@ -6,9 +7,37 @@ export default function ExpenseForm({ setExpenses }) {
     category: "",
     amount: "",
   });
+  const [errors, setErrors] = useState({});
 
+  //! Form Data validation========>
+  const validate = (formData) => {
+    const errorsData = {};
+    if (!formData.title) {
+      errorsData.title = "Title is required";
+    }
+
+    if (!formData.category) {
+      errorsData.category = "Category is required";
+    }
+
+    if (!formData.amount) {
+      errorsData.amount = "Amount is required";
+    }
+
+    setErrors(errorsData);
+    for (const key in errorsData) {
+      toast.error(errorsData[key]);
+    }
+    return errorsData;
+  };
+
+  //* Form Data Submition========>
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validateResult = validate(expense);
+
+    if (Object.keys(validateResult).length) return;
+
     setExpenses((prevState) => [
       ...prevState,
       { id: crypto.randomUUID(), ...expense },
@@ -19,6 +48,13 @@ export default function ExpenseForm({ setExpenses }) {
       category: "",
       amount: "",
     });
+  };
+
+  //^ OnChange function========>
+  const handleChage = (e) => {
+    const { name, value } = e.target;
+    setExpense((prevState) => ({ ...prevState, [name]: value }));
+    setErrors("");
   };
 
   //^ Old version of code========>
@@ -39,10 +75,9 @@ export default function ExpenseForm({ setExpenses }) {
           id="title"
           name="title"
           value={expense.title}
-          onChange={(e) =>
-            setExpense((prevState) => ({ ...prevState, title: e.target.value }))
-          }
+          onChange={handleChage}
         />
+        {errors.title && <p className="error">{`${errors.title} !`}</p>}
       </div>
       <div className="input-container">
         <label htmlFor="category">Category</label>
@@ -51,22 +86,18 @@ export default function ExpenseForm({ setExpenses }) {
           id="category"
           name="category"
           value={expense.category}
-          onChange={(e) =>
-            setExpense((prevState) => ({
-              ...prevState,
-              category: e.target.value,
-            }))
-          }
+          onChange={handleChage}
         >
           <option value="" hidden>
             Select Category
           </option>
-          <option value="grocery">Grocery</option>
-          <option value="clothes">Clothes</option>
-          <option value="bills">Bills</option>
-          <option value="education">Education</option>
-          <option value="medicine">Medicine</option>
+          <option value="Grocery">Grocery</option>
+          <option value="Clothes">Clothes</option>
+          <option value="Bills">Bills</option>
+          <option value="Education">Education</option>
+          <option value="Medicine">Medicine</option>
         </select>
+        {errors.category && <p className="error">{`${errors.category} !`}</p>}
       </div>
       <div className="input-container">
         <label htmlFor="amount">Amount</label>
@@ -74,15 +105,13 @@ export default function ExpenseForm({ setExpenses }) {
           id="amount"
           name="amount"
           value={expense.amount}
-          onChange={(e) =>
-            setExpense((prevState) => ({
-              ...prevState,
-              amount: e.target.value,
-            }))
-          }
+          onChange={handleChage}
         />
+        {errors.amount && <p className="error">{`${errors.amount} !`}</p>}
       </div>
       <button className="add-btn">Add</button>
+
+      <ToastContainer theme="colored" />
     </form>
   );
 }

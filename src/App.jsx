@@ -5,8 +5,11 @@ import ExpenseForm from "./components/ExpenseForm";
 import ExpenseTable from "./components/ExpenseTable";
 import expenseData from "./components/expenseData";
 
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const [expenses, setExpenses] = useState(expenseData);
+
   return (
     <main>
       <h1>Track Your Expense</h1>
