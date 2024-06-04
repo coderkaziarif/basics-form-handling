@@ -4,6 +4,7 @@ export default function Select({
   name,
   value,
   options,
+  defaultOptions,
   onChange,
   error,
 }) {
@@ -12,9 +13,11 @@ export default function Select({
       <label htmlFor={id}>{label}</label>
 
       <select id={id} name={name} value={value} onChange={onChange}>
-        <option value="" hidden>
-          Select Category
-        </option>
+        {defaultOptions && (
+          <option value="" hidden>
+            {defaultOptions}
+          </option>
+        )}
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
