@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Input from "./Input";
 import Select from "./Select";
 
@@ -20,6 +20,7 @@ export default function ExpenseForm({ setExpenses }) {
     category: [{ required: true, msg: "Select a category option" }],
     amount: [{ required: true, msg: "Ammount is required" }],
   };
+
   const validate = (formData) => {
     const errorsData = {};
 
@@ -152,8 +153,6 @@ export default function ExpenseForm({ setExpenses }) {
         error={errors.amount}
       />
       <button className="add-btn">Add</button>
-
-      <ToastContainer theme="colored" />
     </form>
   );
 }
