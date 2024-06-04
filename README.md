@@ -1,4 +1,4 @@
-# React Basics Form handling
+# React Form handling with custom Filter.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
