@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import Input from "./Input";
+import Select from "./Select";
 
 export default function ExpenseForm({ setExpenses }) {
   const [expense, setExpense] = useState({
@@ -69,7 +71,7 @@ export default function ExpenseForm({ setExpenses }) {
 
   return (
     <form className="expense-form" onSubmit={handleSubmit}>
-      <div className="input-container">
+      {/* <div className="input-container">
         <label htmlFor="title">Title</label>
         <input
           id="title"
@@ -78,8 +80,18 @@ export default function ExpenseForm({ setExpenses }) {
           onChange={handleChage}
         />
         {errors.title && <p className="error">{`${errors.title} !`}</p>}
-      </div>
-      <div className="input-container">
+      </div> */}
+
+      <Input
+        id="title"
+        label="Title"
+        name="title"
+        value={expense.title}
+        onChange={handleChage}
+        error={errors.title}
+      />
+
+      {/* <div className="input-container">
         <label htmlFor="category">Category</label>
 
         <select
@@ -98,17 +110,25 @@ export default function ExpenseForm({ setExpenses }) {
           <option value="Medicine">Medicine</option>
         </select>
         {errors.category && <p className="error">{`${errors.category} !`}</p>}
-      </div>
-      <div className="input-container">
-        <label htmlFor="amount">Amount</label>
-        <input
-          id="amount"
-          name="amount"
-          value={expense.amount}
-          onChange={handleChage}
-        />
-        {errors.amount && <p className="error">{`${errors.amount} !`}</p>}
-      </div>
+      </div> */}
+      <Select
+        label="Category"
+        id="category"
+        name="category"
+        value={expense.category}
+        onChange={handleChage}
+        error={errors.category}
+        options={["Grocery", "Clothes", "Bills", "Education", "Medicine"]}
+      />
+
+      <Input
+        label="Amount"
+        id="amount"
+        name="amount"
+        value={expense.amount}
+        onChange={handleChage}
+        error={errors.amount}
+      />
       <button className="add-btn">Add</button>
 
       <ToastContainer theme="colored" />
