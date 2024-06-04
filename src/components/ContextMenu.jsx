@@ -16,7 +16,7 @@ export default function ContextMenu({
           `Deleting item with id: ${rowId}, title: ${itemToDelete.title}`
         );
       }
-      toast.error(`Deleting item title: ${itemToDelete.title}`);
+      toast.success(`Deleting item : ${itemToDelete.title}`);
       return prevState.filter((expense) => expense.id !== rowId);
     });
 
