@@ -1,26 +1,38 @@
 import { useFilter } from "../hooks/useFilter";
 import ContextMenu from "../components/ContextMenu";
-
+import { toast } from "react-toastify";
 import { useState } from "react";
 
-export default function ExpenseTable({ expenses, setExpenses }) {
+export default function ExpenseTable({
+  expenses,
+  setExpenses,
+  setExpense,
+  setEditItemId,
+}) {
   // const [category, setCategory] = useState("");
   // const filteredData = expenses.filter((expense) => {
   //   return expense.category.toLowerCase().includes(category);
   // });
-
-  const [filteredData, setQuery] = useFilter(expenses, (data) => data.category);
-  const total = filteredData.reduce((acc, curr) => acc + curr.amount, 0);
   const [menuPosition, setMenuPosition] = useState({});
   const [rowId, setRowId] = useState("");
+  const [filteredData, setQuery] = useFilter(expenses, (data) => data.category);
+
+  //* Total amount calculation========>
+  const total = filteredData.reduce(
+    (acc, curr) => acc + parseInt(curr.amount),
+    0
+  );
 
   return (
     <>
       <ContextMenu
         menuPosition={menuPosition}
         setMenuPosition={setMenuPosition}
+        expenses={expenses}
         setExpenses={setExpenses}
         rowId={rowId}
+        setExpense={setExpense}
+        setEditItemId={setEditItemId}
       />
       <table className="expense-table" onClick={() => setMenuPosition({})}>
         <thead>
@@ -73,14 +85,14 @@ export default function ExpenseTable({ expenses, setExpenses }) {
             >
               <td>{title}</td>
               <td>{category}</td>
-              <td>₹{amount}</td>
+              <td>&#2547; {amount}</td>
             </tr>
           ))}
 
           <tr>
             <th>Total</th>
             <th></th>
-            <th>₹ {total}</th>
+            <th>&#2547; {total}</th>
           </tr>
         </tbody>
       </table>

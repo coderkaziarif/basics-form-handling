@@ -3,19 +3,25 @@ import { toast } from "react-toastify";
 import Input from "./Input";
 import Select from "./Select";
 
-export default function ExpenseForm({ setExpenses }) {
-  const [expense, setExpense] = useState({
-    title: "",
-    category: "",
-    amount: "",
-  });
+export default function ExpenseForm({
+  setExpenses,
+  expense,
+  setExpense,
+  editItemId,
+  setEditItemId,
+}) {
+  // const [expense, setExpense] = useState({
+  //   title: "",
+  //   category: "",
+  //   amount: "",
+  // });
   const [errors, setErrors] = useState({});
 
   //! Form Data validation========>
   const validationConfig = {
     title: [
       { required: true, msg: "Title is required" },
-      { minLength: 5, msg: "Title more than 5 characters long" },
+      { minLength: 3, msg: "Title more than 3 characters long" },
     ],
     category: [{ required: true, msg: "Select a category option" }],
     amount: [{ required: true, msg: "Ammount is required" }],
@@ -30,7 +36,7 @@ export default function ExpenseForm({ setExpenses }) {
           errorsData[key] = rule.msg;
         }
 
-        if (rule.minLength && value.length < 5) {
+        if (rule.minLength && value.length < 3) {
           errorsData[key] = rule.msg;
         }
       });
@@ -62,6 +68,27 @@ export default function ExpenseForm({ setExpenses }) {
 
     if (Object.keys(validateResult).length) return;
 
+    if (editItemId) {
+      setExpenses((prevState) =>
+        prevState.map((prevExpense) => {
+          if (prevExpense.id === editItemId) {
+            return { ...expense, id: editItemId };
+          }
+          return prevExpense;
+        })
+      );
+
+      toast.success(` ${expense.title} updated = ৳ ${expense.amount} `);
+
+      setExpense({
+        title: "",
+        category: "",
+        amount: "",
+      });
+      setEditItemId("");
+      return;
+    }
+    toast.success(` ${expense.title} new added = ৳ ${expense.amount} `);
     setExpenses((prevState) => [
       ...prevState,
       { id: crypto.randomUUID(), ...expense },
@@ -134,6 +161,7 @@ export default function ExpenseForm({ setExpenses }) {
         {errors.category && <p className="error">{`${errors.category} !`}</p>}
       </div> */}
       <Select
+        type="text"
         label="Category"
         id="category"
         name="category"
@@ -145,6 +173,7 @@ export default function ExpenseForm({ setExpenses }) {
       />
 
       <Input
+        type="number"
         label="Amount"
         id="amount"
         name="amount"
@@ -152,7 +181,7 @@ export default function ExpenseForm({ setExpenses }) {
         onChange={handleChage}
         error={errors.amount}
       />
-      <button className="add-btn">Add</button>
+      <button className="add-btn">{editItemId ? "Save" : "Add"}</button>
     </form>
   );
 }

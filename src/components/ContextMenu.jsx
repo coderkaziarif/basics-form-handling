@@ -2,11 +2,15 @@ import { toast } from "react-toastify";
 export default function ContextMenu({
   menuPosition,
   setMenuPosition,
+  expenses,
   setExpenses,
   rowId,
+  setExpense,
+  setEditItemId,
 }) {
   if (!menuPosition?.left) return;
 
+  //! Delete method=========>
   const handleDelete = () => {
     setExpenses((prevState) => {
       const itemToDelete = prevState.find((expense) => expense.id == rowId);
@@ -16,7 +20,7 @@ export default function ContextMenu({
           `Deleting item with id: ${rowId}, title: ${itemToDelete.title}`
         );
       }
-      toast.success(`Deleting item : ${itemToDelete.title}`);
+      toast.warning(` ${itemToDelete.title} hasbeen deleted`);
       return prevState.filter((expense) => expense.id !== rowId);
     });
 
@@ -27,7 +31,11 @@ export default function ContextMenu({
     <div className="context-menu" style={{ ...menuPosition }}>
       <div
         onClick={() => {
-          console.log("Editing");
+          const { title, category, amount } = expenses.find(
+            (expense) => expense.id === rowId
+          );
+          setEditItemId(rowId);
+          setExpense({ title, category, amount });
           setMenuPosition({});
         }}
       >
