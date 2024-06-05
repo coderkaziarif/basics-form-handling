@@ -36,7 +36,7 @@ export default function ExpenseForm({
           errorsData[key] = rule.msg;
         }
 
-        if (rule.minLength && value.length < 3) {
+        if (rule.minLength && value.length < rule.minLength) {
           errorsData[key] = rule.msg;
         }
       });
