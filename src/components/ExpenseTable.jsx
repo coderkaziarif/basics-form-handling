@@ -45,6 +45,7 @@ export default function ExpenseTable({
       >
         <thead>
           <tr>
+            <th className="amount-colum">#SI</th>
             <th className="amount-column">
               <div>
                 <span>Title</span>
@@ -116,23 +117,27 @@ export default function ExpenseTable({
           </tr>
         </thead>
         <tbody>
-          {filteredData.sort(sortCb).map(({ id, title, category, amount }) => (
-            <tr
-              key={id}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                setMenuPosition({ left: e.clientX + 5, top: e.clientY + 5 });
-                setRowId(id);
-              }}
-            >
-              <td>{title}</td>
-              <td>{category}</td>
-              <td>&#2547; {amount}</td>
-            </tr>
-          ))}
+          {filteredData
+            .sort(sortCb)
+            .map(({ id, title, category, amount }, index) => (
+              <tr
+                key={id}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  setMenuPosition({ left: e.clientX + 5, top: e.clientY + 5 });
+                  setRowId(id);
+                }}
+              >
+                <td>{index + 1}</td>
+                <td>{title}</td>
+                <td>{category}</td>
+                <td>&#2547; {amount}</td>
+              </tr>
+            ))}
 
           <tr>
-            <th>Total</th>
+            <th colSpan="2">Total</th>
+            {/* <th></th> */}
             <th
               className="clear_sort"
               onClick={() => {
