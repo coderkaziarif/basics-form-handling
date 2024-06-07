@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import ContextMenu from "./components/ContextMenu";
 import ExpenseForm from "./components/ExpenseForm";
@@ -9,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
-  const [expense, setExpense] = useState({
+  const [expense, setExpense] = useLocalStorage("expense", {
     title: "",
     category: "",
     amount: "",
