@@ -133,6 +133,7 @@ main {
 
 .clear_sort {
     cursor: pointer;
+   
 }
 
 @media (max-width: 900px) {
